@@ -44,7 +44,7 @@ func NewRootCmd(v *viper.Viper, fs afero.Fs) *cobra.Command {
 
 	rootCmd.Flags().StringP("dir", "d", ".", "The directory to analyze")
 	rootCmd.Flags().StringP("pattern", "p", "./...", "The pattern to analyze")
-	rootCmd.Flags().String("format", "table", "The output format {table|csv|tsv|md}")
+	rootCmd.Flags().String("format", "table", "The output format {table|csv|tsv|md|simple}")
 
 	return rootCmd
 }
@@ -54,7 +54,7 @@ func runRoot(cmd *cobra.Command, v *viper.Viper, _ afero.Fs) error {
 	pattern := v.GetString("pattern")
 	format := v.GetString("format")
 
-	if format != "table" && format != "csv" && format != "tsv" && format != "md" {
+	if format != "table" && format != "csv" && format != "tsv" && format != "md" && format != "simple" {
 		return fmt.Errorf("invalid format: %s", format)
 	}
 
@@ -82,6 +82,12 @@ func runRoot(cmd *cobra.Command, v *viper.Viper, _ afero.Fs) error {
 		t.Render()
 	case "md":
 		t.RenderMarkdown()
+	case "simple":
+		t.Style().Options.DrawBorder = false
+		t.Style().Options.SeparateHeader = false
+		t.Style().Options.SeparateRows = false
+		t.Style().Box.MiddleVertical = " "
+		t.Render()
 	}
 	return nil
 }
