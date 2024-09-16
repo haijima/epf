@@ -74,7 +74,7 @@ func AutoExtractor(dir, pattern string) (Extractor, error) {
 		slog.Info("Detected \"net/http\"")
 		return &NetHttpExtractor{}, nil
 	case None:
-		return nil, fmt.Errorf("not found web framework from %s", dir)
+		return nil, fmt.Errorf("not found web framework from %q", dir)
 	}
 	return nil, err
 }
