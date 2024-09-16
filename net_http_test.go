@@ -11,7 +11,7 @@ import (
 
 func TestGenMatchingGroupFromNetHttp(t *testing.T) {
 	ext := &epf.NetHttpExtractor{}
-	endpoints, err := FindEndpoints("testdata/src/net_http", "./...", ext)
+	endpoints, err := epf.FindEndpoints("testdata/src/net_http", "./...", ext)
 
 	require.NoError(t, err)
 	require.Equal(t, 9, len(endpoints))
