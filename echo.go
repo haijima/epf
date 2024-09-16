@@ -15,6 +15,10 @@ type EchoExtractor struct{}
 
 func (e *EchoExtractor) Extract(callInfo ssautil.CallInfo, parent *ssa.Function, pos token.Pos) (*Endpoint, bool) {
 	if c, ok := callInfo.(*ssautil.StaticMethodCall); ok {
+		if c.Method().Pkg().Path() != "github.com/labstack/echo/v4" {
+			return nil, false
+		}
+
 		e := Endpoint{}
 		m := c.Method().Name()
 		// Method
