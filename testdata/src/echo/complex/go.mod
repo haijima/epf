@@ -1,4 +1,4 @@
-module github.com/haijima/stool/internal/testdata
+module github.com/haijima/epf/testdata/src/echo/complex
 
 go 1.20
 

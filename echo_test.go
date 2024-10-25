@@ -10,7 +10,7 @@ import (
 
 func TestGenMatchingGroupFromEchoV4(t *testing.T) {
 	ext := &epf.EchoExtractor{}
-	endpoints, err := epf.FindEndpoints("testdata/src/echo_simple", "./...", ext)
+	endpoints, err := epf.FindEndpoints("testdata/src/echo/simple", "./...", ext)
 
 	require.NoError(t, err)
 	require.Equal(t, 4, len(endpoints))
@@ -22,7 +22,7 @@ func TestGenMatchingGroupFromEchoV4(t *testing.T) {
 
 func TestGenMatchingGroupFromEchoV4_complex(t *testing.T) {
 	ext := &epf.EchoExtractor{}
-	endpoints, err := epf.FindEndpoints("testdata/src/echo_complex", "./...", ext)
+	endpoints, err := epf.FindEndpoints("testdata/src/echo/complex", "./...", ext)
 
 	require.NoError(t, err)
 	require.Equal(t, 9, len(endpoints))
