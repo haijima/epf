@@ -30,6 +30,9 @@ func (e *NetHttpExtractor) Extract(callInfo ssautil.CallInfo, parent *ssa.Functi
 			if len(s) == 1 {
 				e.Method = "ANY"
 			}
+
+			e.FuncName = "-"
+			e.DeclarePos = ssautil.NewPos(callInfo.Arg(1).Parent(), callInfo.Arg(1).Pos(), pos)
 			switch t := callInfo.Arg(1).(type) {
 			case *ssa.Function:
 				e.FuncName = t.Name()

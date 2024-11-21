@@ -52,23 +52,31 @@ func (e *EchoExtractor) Extract(callInfo ssautil.CallInfo, parent *ssa.Function,
 		// Function name
 		if m == "Static" || m == "File" {
 			e.FuncName = "-"
+			e.DeclarePos = ssautil.NewPos(c.StaticCallee(), c.Pos(), pos)
 		} else {
 			fnArgIdx := 1
 			if m == "Add" || m == "Match" {
 				fnArgIdx = 2
 			}
 
+			e.FuncName = "-"
+			e.DeclarePos = ssautil.NewPos(c.Arg(fnArgIdx).Parent(), c.Arg(fnArgIdx).Pos(), pos)
 			switch v := c.Arg(fnArgIdx).(type) {
 			case *ssa.ChangeType:
 				switch t := v.X.(type) {
 				case *ssa.Function:
 					e.FuncName = t.Name()
 					e.DeclarePos = ssautil.NewPos(t, t.Pos(), pos)
-				default:
-					e.FuncName = "-"
+				case *ssa.MakeClosure:
+					switch fn := t.Fn.(type) {
+					case *ssa.Function:
+						e.FuncName = fn.Name()
+						e.DeclarePos = ssautil.NewPos(t.Parent(), fn.Pos(), pos)
+					}
 				}
 			default:
-				e.FuncName = "-"
+				e.DeclarePos = ssautil.NewPos(v.Parent(), v.Pos(), pos)
+				fmt.Printf("3  %T", v)
 			}
 		}
 		return &e, true
